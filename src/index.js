@@ -18,11 +18,11 @@ const origin = isServer
 // on the server, components add styles to this set and we render them in bulk
 const styles = new Set();
 
-const configureLinks = links => [...links.values()];
+// const configureLinks = links => [...links.values()];
 
 const tree = (
     <Adapter
-        configureLinks={configureLinks}
+        // configureLinks={configureLinks}
         origin={origin}
         store={store}
         styles={styles}

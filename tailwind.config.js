@@ -13,11 +13,16 @@ const config = {
     purge: {
         // Include paths to every file that may refer to Tailwind classnames.
         // Classnames not found in these files will be excluded at build time.
+        // content: [
+        //     './node_modules/@magento/venia-ui/lib/**/*.module.css',
+        //     '../venia-ui/lib/**/*.module.css',
+        //     './src/**/*.module.css',
+        //     './template.html'
+        // ],
         content: [
-            './node_modules/@magento/venia-ui/lib/**/*.module.css',
+            '@magento/venia-ui/lib/**/*.module.css',
             '../venia-ui/lib/**/*.module.css',
-            './src/**/*.module.css',
-            './template.html'
+            './src/**/*.module.css'
         ],
         // Extract Tailwind classnames from source files.
         // Our default matcher only matches targets of CSS Modules' `composes`,
@@ -32,9 +37,9 @@ const config = {
     // Set the character Tailwind uses when prefixing classnames with variants.
     // CSS Modules doesn't like Tailwind's default `:`, so we use `_`.
     separator: '_',
-    theme: {
-        extend: {}
-    }
+    // theme: {
+    //     extend: {}
+    // }
 };
 
 module.exports = config;
