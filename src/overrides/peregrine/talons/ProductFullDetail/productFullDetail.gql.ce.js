@@ -21,6 +21,7 @@ export const GET_WISHLIST_CONFIG = gql`
     query GetWishlistConfigForProductCE {
         storeConfig {
             id
+            store_code
             magento_wishlist_general_is_enabled
         }
     }

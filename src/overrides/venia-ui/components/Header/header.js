@@ -17,6 +17,7 @@ import StoreSwitcher from '@magento/venia-ui/lib/components/Header/storeSwitcher
 import CurrencySwitcher from '@magento/venia-ui/lib/components/Header/currencySwitcher';
 import MegaMenu from '@magento/venia-ui/lib/components/MegaMenu';
 import PageLoadingIndicator from '@magento/venia-ui/lib/components/PageLoadingIndicator';
+// import { useIntl } from 'react-intl';
 
 const SearchBar = React.lazy(() => import('@magento/venia-ui/lib/components/SearchBar'));
 
@@ -48,6 +49,7 @@ const Header = props => {
         </Suspense>
     ) : null;
 
+    console.log('test header');
     return (
         <Fragment>
             <div className={classes.switchersContainer}>

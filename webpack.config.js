@@ -2,7 +2,7 @@ const { configureWebpack, graphQL } = require('@magento/pwa-buildpack');
 const HTMLWebpackPlugin = require('html-webpack-plugin');
 const webpack = require('webpack');
 const fs = require('fs');
-// const { promisify } = require('util');
+const { promisify } = require('util');
 
 const {
     getMediaURL,
@@ -12,7 +12,7 @@ const {
 } = graphQL;
 
 const { DefinePlugin } = webpack;
-const { LimitChunkCountPlugin } = webpack.optimize;
+// const { LimitChunkCountPlugin } = webpack.optimize;
 
 const getCleanTemplate = templateFile => {
     return new Promise(resolve => {
@@ -61,7 +61,7 @@ module.exports = async env => {
     const mediaUrl = await getMediaURL();
     const storeConfigData = await getStoreConfigData();
     const { availableStores } = await getAvailableStoresConfigData();
-    // const writeFile = promisify(fs.writeFile);
+    const writeFile = promisify(fs.writeFile);
 
     /**
      * Loop the available stores when there is provided STORE_VIEW_CODE
@@ -91,14 +91,15 @@ module.exports = async env => {
         process.env.npm_lifecycle_event &&
         process.env.npm_lifecycle_event.includes('watch')
     ) {
-        // const devTemplate = await getCleanTemplate('./template.html');
+        const devTemplate = await getCleanTemplate('./template.html');
 
         // Generate new gitignored html file based on the cleaned template
-        // await writeFile('template.generated.html', devTemplate);
-        // htmlWebpackConfig.template = './template.generated.html';
-        htmlWebpackConfig.templateContent = await getCleanTemplate(
-            './template.html'
-        );
+        await writeFile('template.generated.html', devTemplate);
+        htmlWebpackConfig.template = './template.generated.html';
+
+        // htmlWebpackConfig.templateContent = await getCleanTemplate(
+        //     './template.html'
+        // );
     } else {
         htmlWebpackConfig.template = './template.html';
     }
@@ -134,58 +135,58 @@ module.exports = async env => {
     /*
     Commenting out this section until SSR is fully implemented
     */
-    const serverConfig = Object.assign({}, config, {
-        target: 'node',
-        devtool: false,
-        module: { ...config.module },
-        name: 'server-config',
-        output: {
-            ...config.output,
-            filename: '[name].[hash].SERVER.js',
-            strictModuleExceptionHandling: true
-        },
-        optimization: {
-            minimize: false
-        },
-        plugins: [...config.plugins]
-    });
+    // const serverConfig = Object.assign({}, config, {
+    //     target: 'node',
+    //     devtool: false,
+    //     module: { ...config.module },
+    //     name: 'server-config',
+    //     output: {
+    //         ...config.output,
+    //         filename: '[name].[hash].SERVER.js',
+    //         strictModuleExceptionHandling: true
+    //     },
+    //     optimization: {
+    //         minimize: false
+    //     },
+    //     plugins: [...config.plugins]
+    // });
 
     // TODO: get LocalizationPlugin working in Node
-    const browserPlugins = new Set()
-        .add('HtmlWebpackPlugin')
-        .add('LocalizationPlugin')
-        .add('ServiceWorkerPlugin')
-        .add('VirtualModulesPlugin')
-        .add('WebpackAssetsManifest');
+    // const browserPlugins = new Set()
+    //     .add('HtmlWebpackPlugin')
+    //     .add('LocalizationPlugin')
+    //     .add('ServiceWorkerPlugin')
+    //     .add('VirtualModulesPlugin')
+    //     .add('WebpackAssetsManifest');
 
     // remove browser-only plugins
-    serverConfig.plugins = serverConfig.plugins.filter(
-        plugin => !browserPlugins.has(plugin.constructor.name)
-    );
+    // serverConfig.plugins = serverConfig.plugins.filter(
+    //     plugin => !browserPlugins.has(plugin.constructor.name)
+    // );
 
     // remove browser-only module rules
-    serverConfig.module.rules = serverConfig.module.rules.map(rule => {
-        if (`${rule.test}` === '/\\.css$/') {
-            return {
-                ...rule,
-                oneOf: rule.oneOf.map(ruleConfig => ({
-                    ...ruleConfig,
-                    use: ruleConfig.use.filter(
-                        loaderConfig => loaderConfig.loader !== 'style-loader'
-                    )
-                }))
-            };
-        }
+    // serverConfig.module.rules = serverConfig.module.rules.map(rule => {
+    //     if (`${rule.test}` === '/\\.css$/') {
+    //         return {
+    //             ...rule,
+    //             oneOf: rule.oneOf.map(ruleConfig => ({
+    //                 ...ruleConfig,
+    //                 use: ruleConfig.use.filter(
+    //                     loaderConfig => loaderConfig.loader !== 'style-loader'
+    //                 )
+    //             }))
+    //         };
+    //     }
 
-        return rule;
-    });
+    //     return rule;
+    // });
 
     // add LimitChunkCountPlugin to avoid code splitting
-    serverConfig.plugins.push(
-        new LimitChunkCountPlugin({
-            maxChunks: 1
-        })
-    );
+    // serverConfig.plugins.push(
+    //     new LimitChunkCountPlugin({
+    //         maxChunks: 1
+    //     })
+    // );
 
     return [config];
 };
