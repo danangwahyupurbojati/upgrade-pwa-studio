@@ -13,10 +13,10 @@ import Breadcrumbs from '@magento/venia-ui/lib/components/Breadcrumbs';
 import Button from '@magento/venia-ui/lib/components/Button';
 import Carousel from '@magento/venia-ui/lib/components/ProductImageCarousel';
 import FormError from '@magento/venia-ui/lib/components/FormError';
-import { QuantityFields } from '@magento/venia-ui/lib/components/CartPage/ProductListing/quantity';
+import { QuantityFields } from '@magento/venia-ui/lib/components/CartPage/ProductListing/quantity'; //deprecated since 12.4
 import RichContent from '@magento/venia-ui/lib/components/RichContent/richContent';
 import { ProductOptionsShimmer } from '@magento/venia-ui/lib/components/ProductOptions';
-import defaultClasses from './productFullDetail.module.css';
+import defaultClasses from '@magento/venia-ui/lib/components/ProductFullDetail/productFullDetail.module.css';
 
 const WishlistButton = React.lazy(() => import('@magento/venia-ui/lib/components/Wishlist/AddToListButton'));
 const Options = React.lazy(() => import('@magento/venia-ui/lib/components/ProductOptions'));

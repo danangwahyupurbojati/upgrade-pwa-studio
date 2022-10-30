@@ -322,6 +322,7 @@ export const GET_STORE_CONFIG_DATA = gql`
         storeConfig {
             id
             product_url_suffix
+            store_code
         }
     }
 `;
